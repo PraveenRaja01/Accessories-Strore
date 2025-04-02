@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333;
+            --nav-bg: #333;
+            --nav-text: white;
+            --button-bg: green;
+        }
+        body.dark-theme {
+            --bg-color: #1e1e1e;
+            --text-color: #f0f0f0;
+            --nav-bg: #000;
+            --nav-text: #ddd;
+            --button-bg: limegreen;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        header {
+            background: var(--nav-bg);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+        h1 {
+            font-size: 1.5rem;
+            color: var(--nav-text);
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin: 0 15px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--nav-text);
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--button-bg);
+        }
+        .cart-container {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .cart-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+        .qty-btn {
+            padding: 5px 10px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .remove-btn {
+            background: red;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .cart-total {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .cart-actions {
+            margin-top: 20px;
+        }
+        .checkout-btn {
+            background: var(--button-bg);
+            color: white;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .checkout-btn:disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+        .clear-cart {
+            background: darkred;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="../images/logo.png" alt="Logo" class="logo">
+            <h1>Gadgets & Accessories</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="mobile.html"><i class="fas fa-mobile-alt"></i> Mobiles</a></li>
+                <li><a href="laptops.html"><i class="fas fa-laptop"></i> Laptops</a></li>
+                <li><a href="pc.html"><i class="fas fa-desktop"></i> PC Accessories</a></li>
+                <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="cart-container">
+        <h1>Your Cart</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items"></tbody>
+        </table>
+        <div class="cart-total">
+            <strong>Total: $<span id="cart-total">0.00</span></strong>
+        </div>
+        <div class="cart-actions">
+            <button class="checkout-btn" id="checkout-btn" disabled onclick="proceedToPay()">Proceed to Pay</button>
+            <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
+        </div>
+    </div>
+
+    <script>
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cartTable = document.getElementById("cart-items");
+            let cartTotal = document.getElementById("cart-total");
+            let checkoutBtn = document.getElementById("checkout-btn");
+            let cartCount = document.getElementById("cart-count");
+    
+            cartTable.innerHTML = "";
+            let totalAmount = 0;
+            let totalItems = 0;
+    
+            cart.forEach((item, index) => {
+                if (!item.quantity) item.quantity = 1;  // Ensure quantity is defined
+                let itemTotal = item.price * item.quantity;
+                totalAmount += itemTotal;
+                totalItems += item.quantity;
+    
+                let row = `<tr>
+                    <td><img src="${item.image}" class="cart-img"></td>
+                    <td>${item.name}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>
+                        <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                        <span id="qty-${index}">${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                    </td>
+                    <td>$${itemTotal.toFixed(2)}</td>
+                    <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
+                </tr>`;
+                cartTable.innerHTML += row;
+            });
+    
+            cartTotal.innerText = totalAmount.toFixed(2);
+            cartCount.innerText = totalItems;
+            checkoutBtn.disabled = cart.length === 0;
+        }
+    
+        function updateQuantity(index, change) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (!cart[index]) return; // Prevent undefined errors
+            cart[index].quantity = Math.max(1, (cart[index].quantity || 1) + change); // Ensure minimum quantity is 1
+    
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+    
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+    
+        function clearCart() {
+            localStorage.removeItem('cart');
+            loadCart();
+        }
+    
+        function proceedToPay() {
+            window.location.href = "checkout.html";
+        }
+        
+    
+        document.addEventListener("DOMContentLoaded", loadCart);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Gadgets & Accessories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #f5f5f5;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #1e1e1e;
+            color: white;
+        }
+
+        body.dark-mode header {
+            background: #1e1e1e;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Product List */
+        .product-list {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .product {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 250px;
+            text-align: center;
+        }
+
+        body.dark-mode .product {
+            background: #252525;
+            color: white;
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            padding: 10px 0;
+        }
+
+        .product-info h3 {
+            margin: 10px 0;
+        }
+
+        .price {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        body.dark-mode .price {
+            color: white;
+        }
+
+        .add-to-cart {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .add-to-cart:hover {
+            background: #555;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #1e1e1e;
+            color: white;
+            text-align: center;
+        }
+
+        body.dark-mode footer {
+            background: #1e1e1e ;
+        }
+        .product img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="../images/logo.png" alt="Logo" class="logo">
+            <h1>Mobile Gadgets & Accessories</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+        <div class="theme-toggle">
+            <i class="fas fa-moon" id="theme-toggle"></i>
+        </div>
+    </header>
+
+    <section class="product-list">
+        <h2>Mobile Gadgets & Accessories</h2>
+        <div class="products">
+
+            <div class="product">
+                <img src="../images/wireless-charger.webp" alt="Wireless Charger">
+                <div class="product-info">
+                    <h3>Wireless Charger</h3>
+                    <p class="price">$29.99</p>
+                    <button class="add-to-cart" onclick="addToCart('Wireless Charger', 29.99, '../images/wireless-charger.webp')">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+
+            <div class="product">
+                <img src="../images/phone-case.webp" alt="Phone Case">
+                <div class="product-info">
+                    <h3>Phone Case</h3>
+                    <p class="price">$14.99</p>
+                    <button class="add-to-cart" onclick="addToCart('Phone Case', 14.99, '../images/phone-case.webp')">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+
+            <div class="product">
+                <img src="../images/screen-protector.webp" alt="Screen Protector">
+                <div class="product-info">
+                    <h3>Screen Protector</h3>
+                    <p class="price">$9.99</p>
+                    <button class="add-to-cart" onclick="addToCart('Screen Protector', 9.99, '../images/screen-protector.webp')">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+
+            <div class="product">
+                <img src="../images/powerbank.jpg" alt="Power Bank">
+                <div class="product-info">
+                    <h3>10000mAh Power Bank</h3>
+                    <p class="price">$39.99</p>
+                    <button class="add-to-cart" onclick="addToCart('10000mAh Power Bank', 39.99, '../images/powerbank.jpg')">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Gadgets & Accessories. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function addToCart(name, price, image) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ name, price, image });
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            updateCartCount();
+            alert(`${name} has been added to the cart!`);
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            document.getElementById("cart-count").innerText = cart.length;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            updateCartCount();
+
+            let themeToggle = document.getElementById("theme-toggle");
+
+            if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-mode");
+                themeToggle.classList.replace("fa-moon", "fa-sun");
+            }
+
+            themeToggle.addEventListener("click", function () {
+                document.body.classList.toggle("dark-mode");
+                localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+                themeToggle.classList.toggle("fa-sun");
+                themeToggle.classList.toggle("fa-moon");
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Gadgets & Accessories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Header */
+        header {
+            background: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* Payment Container */
+        .payment-container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .total-amount {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            color: #28a745;
+        }
+
+        .order-summary {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .order-summary p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .payment-form label {
+            font-weight: bold;
+        }
+
+        .payment-form input,
+        .payment-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .pay-btn {
+            width: 100%;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .pay-btn:hover {
+            background: #218838;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            color: green;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .secure-payment {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .secure-payment i {
+            color: #28a745;
+            margin: 0 5px;
+        }
+
+        /* Help Section */
+        .help-section {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .help-section a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .help-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #333;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>💳 Secure Payment</h1>
+    </header>
+
+    <section class="payment-container">
+        <h2>Complete Your Order</h2>
+
+        <div class="order-summary">
+            <p><strong>Order Summary</strong></p>
+            <p>Items: <span id="total-items">0</span></p>
+            <p>Subtotal: $<span id="subtotal">0.00</span></p>
+            <p>Tax (5%): $<span id="tax">0.00</span></p>
+            <p><strong>Total: $<span id="total-amount">0.00</span></strong></p>
+        </div>
+
+        <form class="payment-form" id="payment-form">
+            <label for="payment-method">Select Payment Method:</label>
+            <select id="payment-method" required>
+                <option value="credit-card">Credit Card</option>
+                <option value="debit-card">Debit Card</option>
+                <option value="paypal">PayPal</option>
+                <option value="upi">UPI</option>
+            </select>
+
+            <div id="card-fields">
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" placeholder="Enter Card Number" required>
+
+                <label for="name-on-card">Name on Card:</label>
+                <input type="text" id="name-on-card" placeholder="Enter Name on Card" required>
+            </div>
+
+            <div id="upi-field" style="display: none;">
+                <label for="upi-id">UPI ID:</label>
+                <input type="text" id="upi-id" placeholder="example@upi" required>
+            </div>
+
+            <button type="submit" class="pay-btn">Proceed to Pay</button>
+        </form>
+
+        <p class="secure-payment">🔒 100% Secure Payment <i class="fas fa-lock"></i> <i class="fas fa-shield-alt"></i></p>
+
+        <p class="help-section">Need help? <a href="contact.html">Contact Us</a></p>
+
+        <p class="success-message" id="success-message">✅ Payment Successful! Redirecting...</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Gadgets & Accessories. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Load total amount from localStorage
+        function loadTotalAmount() {
+            let cartTotal = parseFloat(localStorage.getItem("cartTotal")) || 0;
+            let itemCount = localStorage.getItem("cartCount") || 0;
+            let tax = (cartTotal * 0.05).toFixed(2);
+            let total = (cartTotal + parseFloat(tax)).toFixed(2);
+
+            document.getElementById("subtotal").textContent = cartTotal.toFixed(2);
+            document.getElementById("tax").textContent = tax;
+            document.getElementById("total-amount").textContent = total;
+            document.getElementById("total-items").textContent = itemCount;
+        }
+
+        // Change form fields based on payment method
+        document.getElementById("payment-method").addEventListener("change", function () {
+            let selectedMethod = this.value;
+            let cardFields = document.getElementById("card-fields");
+            let upiField = document.getElementById("upi-field");
+
+            if (selectedMethod === "upi") {
+                cardFields.style.display = "none";
+                upiField.style.display = "block";
+            } else {
+                cardFields.style.display = "block";
+                upiField.style.display = "none";
+            }
+        });
+
+        // Handle payment form submission
+        document.getElementById("payment-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            document.getElementById("success-message").style.display = "block";
+            
+            // Clear cart after successful payment
+            localStorage.removeItem("cart");
+            localStorage.removeItem("cartTotal");
+            localStorage.removeItem("cartCount");
+
+            setTimeout(() => {
+                window.location.href = "../index.html"; // Redirect to homepage
+            }, 3000);
+        });
+
+        document.addEventListener("DOMContentLoaded", loadTotalAmount);
+    </script>
+
+</body>
+</html>

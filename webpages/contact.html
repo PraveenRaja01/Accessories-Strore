@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact us for any inquiries or support.">
+    <title>Contact Us | Gadgets & Accessories</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="../images/logo.png" alt="Logo" class="logo">
+            <h1>Gadgets & Accessories</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="mobile.html"><i class="fas fa-mobile-alt"></i> Mobiles</a></li>
+                <li><a href="laptops.html"><i class="fas fa-laptop"></i> Laptops</a></li>
+                <li><a href="pc.html"><i class="fas fa-desktop"></i> PC Accessories</a></li>
+                <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                <li id="login-btn"><a href="login.html"><i class="fas fa-user"></i> Login</a></li>
+                <li id="signup-btn"><a href="signup.html"><i class="fas fa-user-plus"></i> Signup</a></li>
+                <li id="logout-btn" style="display: none;"><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><i class="fas fa-moon" id="theme-toggle"></i></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="contact-container">
+        <h2>Contact Us</h2>
+        <p>Have a question? We're here to help!</p>
+
+        <form id="contact-form">
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Enter your message" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+            <h3>Our Office</h3>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Trichy, India</p>
+            <p><i class="fas fa-envelope"></i> support@gadgets.com</p>
+            <p><i class="fas fa-phone"></i> +91 9876543210</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Gadgets & Accessories. All rights reserved.</p>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

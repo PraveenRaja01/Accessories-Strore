@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gadgets & Accessories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <style>
+        :root {
+            --light-bg: #ffffff;
+            --dark-bg: #121212;
+            --light-text: #333;
+            --dark-text: #f5f5f5;
+            --primary-color: #555;
+            --hover-color: #333;
+            --secondary-color: #f3f3f3;
+            --btn-color: #777;
+            --btn-hover: #444;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .dark-theme {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        header {
+            background: var(--primary-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--hover-color);
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--hover-color);
+        }
+
+        .dashboard-container {
+            text-align: center;
+            padding: 50px 20px;
+            background: var(--secondary-color);
+        }
+
+        .dark-theme .dashboard-container {
+            background: #1c1c1c;
+        }
+
+        .dashboard-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .dark-theme .dashboard-content {
+            background: #222;
+        }
+
+        .dashboard-content h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-content p {
+            font-size: 18px;
+        }
+
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: darkred;
+        }
+        .home-btn{
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        .home-btn:hover{
+            background: darkblue;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="../images/logo.png" alt="Logo" class="logo">
+            <h1>Gadgets & Accessories</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="mobile.html">Mobiles</a></li>
+                <li><a href="laptops.html">Laptops</a></li>
+                <li><a href="pc.html">PC Accessories</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="theme-toggle">
+            <i class="fas fa-moon" id="dark-mode-toggle"></i>
+        </div>
+    </header>
+
+    <section class="dashboard-container">
+        <div class="dashboard-content">
+            <h2>Welcome to Your Dashboard</h2>
+            <p>Hello, <span id="user-name">User</span>!</p>
+            <p>Manage your gadgets and accessories from here.</p>
+            <button class="logout-btn">Logout</button>
+            <button class="home-btn"><a href="../index.html">Back to home</a></button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Gadgets & Accessories. All rights reserved.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            $("#dark-mode-toggle").click(function () {
+                $("body").toggleClass("dark-theme");
+                $(this).toggleClass("fa-sun fa-moon");
+
+                localStorage.setItem("theme", $("body").hasClass("dark-theme") ? "dark" : "light");
+            });
+
+            if (localStorage.getItem("theme") === "dark") {
+                $("body").addClass("dark-theme");
+                $("#dark-mode-toggle").removeClass("fa-moon").addClass("fa-sun");
+            }
+
+            if (localStorage.getItem("isLoggedIn") !== "true") {
+                window.location.href = "login.html";
+            }
+
+            $(".logout-btn").click(function () {
+                localStorage.removeItem("isLoggedIn");
+                window.location.href = "login.html";
+            });
+            $("#user-name").text("John Doe");
+        });
+    </script>
+
+</body>
+</html>

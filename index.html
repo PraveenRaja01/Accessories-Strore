@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shop the latest gadgets and accessories at unbeatable prices">
+    <title>Gadgets & Accessories</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="cart.js"></script>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <!-- 🔹 Header -->
+    <header>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Logo" class="logo">
+            <h1>Gadgets & Accessories</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="webpages/mobile.html"><i class="fas fa-mobile-alt"></i> Mobiles</a></li>
+                <li><a href="webpages/laptops.html"><i class="fas fa-laptop"></i> Laptops</a></li>
+                <li><a href="webpages/pc.html"><i class="fas fa-desktop"></i> PC Accessories</a></li>
+                <li><a href="webpages/cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)</a></li>
+                <li id="login-btn"><a href="webpages/login.html"><i class="fas fa-user"></i> Login</a></li>
+                <li id="signup-btn"><a href="webpages/signup.html"><i class="fas fa-user-plus"></i> Signup</a></li>
+                <li id="logout-btn" style="display: none;"><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            <div class="theme-toggle">
+                <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 🔹 Banner -->
+    <section class="banner">
+        <div class="banner-content">
+            <h2>Welcome, <span id="user-name">Guest</span></h2>
+            <p>Discover the latest gadgets at unbeatable prices.</p>
+            <button onclick="window.location.href='webpages/mobile.html'" class="shop-now-btn">
+                Shop Now <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        <div class="banner-image">
+            <img src="images/banner.jpg" alt="Latest gadgets">
+        </div>
+    </section>
+
+    <!-- 🔹 Featured Products -->
+    <section class="featured-products">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="product-slider">
+            
+            <div class="product">
+                <div class="badge">New</div>
+                <div class="product-img-container">
+                    <img src="images/earbuds.jpg" alt="Wireless Earbuds">
+                </div>
+                <div class="product-info">
+                    <h3>Wireless Earbuds</h3>
+                    <p class="price">$49.99</p>
+                    <button class="add-to-cart" onclick="addToCart('Wireless Earbuds', 49.99, 'images/earbuds.jpg'); alert('Wireless Earbuds has been added to the cart!')">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+            
+            <div class="product">
+                <div class="badge">Sale</div>
+                <div class="product-img-container">
+                    <img src="images/smartwatch.jpg" alt="Smart Watch">
+                </div>
+                <div class="product-info">
+                    <h3>Smart Watch Pro</h3>
+                    <p class="price">$129.99</p>
+                    <button class="add-to-cart" onclick="addToCart('Smart Watch Pro', 129.99, 'images/smartwatch.jpg'); alert('Smart Watch has been added to the cart!')">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-img-container">
+                    <img src="images/powerbank.jpg" alt="Power Bank">
+                </div>
+                <div class="product-info">
+                    <h3>20000mAh Power Bank</h3>
+                    <p class="price">$39.99</p>
+                    <button class="add-to-cart" onclick="addToCart('20000mAh Power Bank', 39.99, 'images/powerbank.jpg'); alert('Powerbank has been added to the cart!')">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 🔹 Newsletter -->
+    <section class="newsletter">
+        <div class="newsletter-container">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to our newsletter for the latest products and exclusive offers</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit" class="subscribe-btn">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <hr>
+
+    <!-- 🔹 Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="webpages/mobile.html">Mobile Accessories</a></li>
+                    <li><a href="webpages/laptops.html">Laptop Accessories</a></li>
+                    <li><a href="webpages/pc.html">PC Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="webpages/contact.html">Contact Us</a></li>
+                    <li><a href="webpages/faq.html">FAQs</a></li>
+                    <li><a href="webpages/returns.html">Returns & Exchanges</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Gadgets & Accessories. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            updateCartCount();
+            checkUserLogin();
+        });
+
+        function checkUserLogin() {
+            let username = localStorage.getItem("loggedInUser");
+            if (username) {
+                document.getElementById("user-name").innerText = username.substring(0,username.indexOf('@'));
+                document.getElementById("login-btn").style.display = "none";
+                document.getElementById("signup-btn").style.display = "none";
+                document.getElementById("logout-btn").style.display = "block";
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedInUser");
+            alert("You have logged out.");
+            location.reload();
+        }
+    </script>
+
+</body>
+</html>

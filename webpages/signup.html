@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - Gadgets & Accessories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #f5f5f5;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #1e1e1e;
+            color: white;
+        }
+
+        body.dark-mode header {
+            background: #000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Signup Container */
+        .signup-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .signup-container {
+            background: #252525;
+        }
+
+        .signup-container h2 {
+            margin-bottom: 15px;
+        }
+
+        .signup-container input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        body.dark-mode .signup-container input {
+            background: #333;
+            color: #fff;
+            border: 1px solid #777;
+        }
+
+        .signup-btn {
+            background-color: #1e1e1e;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .signup-btn:hover {
+            background-color: #333;
+        }
+
+        /* Password Strength Indicator */
+        #password-strength {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #1e1e1e;
+            color: white;
+            text-align: center;
+        }
+
+        body.dark-mode footer {
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="../images/logo.png" alt="Logo" class="logo">
+            <h1>Gadgets & Accessories</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li id="login-signup-links"><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a> | <a href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            </ul>
+        </nav>
+        <div class="theme-toggle">
+            <i class="fas fa-moon" id="theme-toggle"></i>
+        </div>
+    </header>
+
+    <section class="signup-container">
+        <h2>Create an Account</h2>
+        <form id="signup-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter your username" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter a strong password" required>
+            <p id="password-strength"></p>
+
+            <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Gadgets & Accessories. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let signupForm = document.getElementById("signup-form");
+            let themeToggle = document.getElementById("theme-toggle");
+            let loginSignupLinks = document.getElementById("login-signup-links");
+
+            // Hide Login & Signup links if user is logged in
+            if (localStorage.getItem("loggedInUser")) {
+                loginSignupLinks.style.display = "none";
+            }
+
+            // Email Regex Pattern
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            // Password Strength Indicator
+            let passwordField = document.getElementById("password");
+            let passwordStrengthText = document.getElementById("password-strength");
+
+            passwordField.addEventListener("input", function () {
+                let password = passwordField.value;
+                if (password.length < 6) {
+                    passwordStrengthText.textContent = "Weak Password 🔴";
+                    passwordStrengthText.style.color = "red";
+                } else if (password.match(/[a-z]/) && password.match(/[0-9]/) && password.length >= 8) {
+                    passwordStrengthText.textContent = "Strong Password 🟢";
+                    passwordStrengthText.style.color = "green";
+                } else {
+                    passwordStrengthText.textContent = "Medium Strength 🟡";
+                    passwordStrengthText.style.color = "orange";
+                }
+            });
+
+            // Signup Form Handling
+            signupForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                let username = document.getElementById("username").value;
+                let email = document.getElementById("email").value;
+                let password = document.getElementById("password").value;
+
+                if (!emailPattern.test(email)) {
+                    alert("❌ Invalid email format! Please enter a valid email.");
+                    return;
+                }
+
+                if (password.length < 6) {
+                    alert("❌ Password must be at least 6 characters long.");
+                    return;
+                }
+
+                localStorage.setItem("registeredUser", JSON.stringify({ username, email, password }));
+
+                alert("✅ Signup successful! Redirecting to Login.");
+                window.location.href = "login.html";
+            });
+
+            // Theme Toggle
+            if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-mode");
+                themeToggle.classList.replace("fa-moon", "fa-sun");
+            }
+
+            themeToggle.addEventListener("click", function () {
+                document.body.classList.toggle("dark-mode");
+                if (document.body.classList.contains("dark-mode")) {
+                    localStorage.setItem("theme", "dark");
+                    themeToggle.classList.replace("fa-moon", "fa-sun");
+                } else {
+                    localStorage.setItem("theme", "light");
+                    themeToggle.classList.replace("fa-sun", "fa-moon");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

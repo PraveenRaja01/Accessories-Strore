@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Gadgets & Accessories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            border-radius: 8px;
+        }
+        h2, h3 {
+            text-align: center;
+        }
+        .checkout-cart {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        .checkout-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .checkout-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .checkout-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+        .payment-methods {
+            margin-top: 20px;
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .payment-option:hover {
+            background: #f0f0f0;
+        }
+        input[type="radio"] {
+            transform: scale(1.2);
+        }
+        .payment-form {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .payment-form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .payment-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            color: white;
+            background: green;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: darkgreen;
+        }
+    </style>
+</head>
+<body onload="loadCheckoutPage()">
+
+    <div class="container">
+        <h2>Checkout</h2>
+
+        <!-- Cart Items -->
+        <div class="checkout-cart">
+            <h3>Your Cart</h3>
+            <div id="checkout-cart-items"></div>
+            <div class="checkout-total">Total: $<span id="checkout-total">0.00</span></div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="payment-methods">
+            <h3>Select Payment Method</h3>
+
+            <div class="payment-option">
+                <input type="radio" name="payment" id="card" onclick="showPaymentForm('card-form')">
+                <label for="card">Credit / Debit Card</label>
+            </div>
+
+            <div class="payment-option">
+                <input type="radio" name="payment" id="upi" onclick="showPaymentForm('upi-form')">
+                <label for="upi">UPI Payment</label>
+            </div>
+
+            <div class="payment-option">
+                <input type="radio" name="payment" id="cod" onclick="showPaymentForm('cod-form')">
+                <label for="cod">Cash on Delivery</label>
+            </div>
+        </div>
+
+        <!-- Card Payment Form -->
+        <div class="payment-form" id="card-form">
+            <h3>Enter Card Details</h3>
+            <label>Card Number</label>
+            <input type="text" placeholder="1234 5678 9012 3456" required>
+            <label>Expiry Date</label>
+            <input type="text" placeholder="MM/YY" required>
+            <label>CVV</label>
+            <input type="password" placeholder="***" required>
+            <button class="btn" onclick="submitPayment()">Pay Now</button>
+        </div>
+
+        <!-- UPI Payment Form -->
+        <div class="payment-form" id="upi-form">
+            <h3>Enter UPI ID</h3>
+            <label>UPI ID</label>
+            <input type="text" placeholder="yourname@upi" required>
+            <button class="btn" onclick="submitPayment()">Proceed with UPI</button>
+        </div>
+
+        <!-- COD Form -->
+        <div class="payment-form" id="cod-form">
+            <h3>Cash on Delivery</h3>
+            <p>Please provide your delivery details.</p>
+            <label>Full Name</label>
+            <input type="text" placeholder="John Doe" required>
+            <label>Address</label>
+            <input type="text" placeholder="123 Main St, City" required>
+            <label>Phone Number</label>
+            <input type="text" placeholder="+1234567890" required>
+            <button class="btn" onclick="submitPayment()">Confirm Order</button>
+        </div>
+    </div>
+
+    <script>
+        function loadCheckoutPage() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartItemsContainer = document.getElementById("checkout-cart-items");
+            let totalElement = document.getElementById("checkout-total");
+
+            cartItemsContainer.innerHTML = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+                totalElement.innerText = "0.00";
+                return;
+            }
+
+            cart.forEach((item) => {
+                let cartItem = document.createElement("div");
+                cartItem.classList.add("checkout-item");
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div>
+                        <p><strong>${item.name}</strong></p>
+                        <p>Price: $${item.price.toFixed(2)}</p>
+                        <p>Quantity: ${item.quantity}</p>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+                total += item.price * item.quantity;
+            });
+
+            totalElement.innerText = total.toFixed(2);
+        }
+
+        function showPaymentForm(formId) {
+            document.querySelectorAll(".payment-form").forEach(form => form.style.display = "none");
+            document.getElementById(formId).style.display = "block";
+        }
+
+        function submitPayment() {
+            alert("Payment Successful! Your order has been placed.");
+            localStorage.removeItem("cart");
+            window.location.href = "../index.html";
+        }
+    </script>
+
+</body>
+</html>
